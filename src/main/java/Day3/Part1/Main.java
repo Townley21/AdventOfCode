@@ -30,6 +30,7 @@ package Day3.Part1;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * TODO: Insert Class Description Here!
@@ -39,18 +40,213 @@ import java.io.FileReader;
  */
 public class Main
 {
-    public static void main(String[] args) throws FileNotFoundException
-    {
-        String input = "src/main/resources/Day2Input.txt";
+    /**
+     * 467..114..
+     * ...*......
+     * ..35..633.
+     * ......#...
+     * 617*......
+     * .....+.58.
+     * ..592.....
+     * ......755.
+     * ...$.*....
+     * .664.598..
+     */
+
+    public static void main(String[] args) throws IOException {
+        String input = "src/main/resources/Day3Input.txt";
 
         BufferedReader r = new BufferedReader(new FileReader(input));
-        int[][] specialIndices = findAllSpecials(r);
+        String l;
+        boolean valid = false;
+        int total = 0;
+        String j = "";
+        String k = "";
+        String c = "";
+        String l0 = "";
+        String l1 = r.readLine();
+        String l2 = r.readLine();
+        int lineCountDebug = 1;
+        while (l1 != null)
+        {
+            for (int i = 0; i < l1.length(); i++)
+            {
+                if (Character.isDigit(l1.charAt(i)))
+                {
+                    String n = String.valueOf(l1.charAt(i));
+                    if (j.isEmpty())
+                    {
+                        j = n;
+                        if (!valid)
+                            valid = checkForSpecialsInArea(i, l0, l1, l2);
+
+                    } else if (k.isEmpty())
+                    {
+                        k = n;
+                        if (!valid)
+                            valid = checkForSpecialsInArea(i, l0, l1, l2);
+                    } else if (c.isEmpty())
+                    {
+                        c = n;
+                        if (!valid)
+                            valid = checkForSpecialsInArea(i, l0, l1, l2);
+                    }
+                }
+
+                if (l1.charAt(i) == '.')
+                {
+                    if (!valid)
+                    {
+                        j = "";
+                        k = "";
+                        c = "";
+                    }
+                    else
+                    {
+                        total += Integer.parseInt(j.concat(k).concat(c));
+                        j = "";
+                        k = "";
+                        c = "";
+                        valid = false;
+                    }
+                }
+
+                if((!j.isEmpty() || !k.isEmpty() || !c.isEmpty()) && (l1.charAt(i) == '\0' || isSpecialChar(l1.charAt(i))))
+                {
+                    total += Integer.parseInt(j.concat(k).concat(c));
+                    j = "";
+                    k = "";
+                    c = "";
+                    valid = false;
+                }
+
+            }
+
+            l0 = l1;
+            l1 = l2;
+            l2 = r.readLine();
+            lineCountDebug++;
+        }
+
+        System.out.println(total);
     }
 
-    private static int[][] findAllSpecials(BufferedReader r)
+    private static boolean isSpecialChar(char c)
     {
+        switch (c)
+        {
+            case '*':
+            case '/':
+            case '#':
+            case '%':
+            case '&':
+            case '+':
+            case '$':
+            case '@':
+            case '-':
+            case '=':
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean checkForSpecialsInArea(int i, String l0, String l1, String l2)
+    {
+        //check same line
+        if (i > 0 && i != l1.length() - 1) {
+            if (isSpecialChar(l1.charAt(i - 1)))
+                return true;
+
+            if (isSpecialChar(l1.charAt(i + 1)))
+                return true;
+        }
+
+        if (i == l1.length() - 1)
+        {
+            if (isSpecialChar(l1.charAt(i - 1)))
+                return true;
+        }
 
 
-        return new int[][];
+        //Check Below
+        if (l2 != null)
+        {
+            //middle element
+            if (i > 0 && i != l1.length() - 1)
+            {
+                for (int x = i - 1; x < i + 2; x++)
+                {
+                    if (isSpecialChar(l2.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            //first element
+            if (i == 0)
+            {
+                for (int x = i; x < i + 2; x++)
+                {
+                    if (isSpecialChar(l2.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            //last element
+            if (i == l1.length() - 1)
+            {
+                for (int x = i - 1; x < i + 1; x++)
+                {
+                    if (isSpecialChar(l2.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (!l0.isEmpty())
+        {
+            //middle element
+            if (i > 0 && i != l1.length() - 1)
+            {
+                for (int x = i - 1; x < i + 2; x++)
+                {
+                    if (isSpecialChar(l0.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            //first element
+            if (i == 0)
+            {
+                for (int x = i; x < i + 2; x++)
+                {
+                    if (isSpecialChar(l0.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            //last element
+            if (i == l1.length() - 1)
+            {
+                for (int x = i - 1; x < i + 1; x++)
+                {
+                    if (isSpecialChar(l0.charAt(x)))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
