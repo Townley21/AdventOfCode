@@ -27,6 +27,10 @@
 //========================================================================
 package Day3.Part1;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 /**
  * TODO: Insert Class Description Here!
  *
@@ -35,8 +39,18 @@ package Day3.Part1;
  */
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
+    {
+        String input = "src/main/resources/Day2Input.txt";
+
+        BufferedReader r = new BufferedReader(new FileReader(input));
+        int[][] specialIndices = findAllSpecials(r);
+    }
+
+    private static int[][] findAllSpecials(BufferedReader r)
     {
 
+
+        return new int[][];
     }
 }

@@ -9,12 +9,11 @@ public class Main
 {
     public static void main(String[] args) throws IOException
     {
-        String input = "src/main/resources/Day2Part2Input";
+        String input = "src/main/resources/Day2Input.txt";
 
         BufferedReader r = new BufferedReader(new FileReader(input));
         String l;
         int lcount = 1;
-        boolean isValid = true;
         int total = 0;
         int rMax = 0;
         int gMax = 0;
@@ -37,8 +36,7 @@ public class Main
 
             l.replace("//s", "");
             int j = 0;
-            isValid = true;
-            for (int i = 0; i < l.length() && isValid; i++)
+            for (int i = 0; i < l.length(); i++)
             {
                 if (Character.isDigit(l.charAt(i)))
                 {
