@@ -97,19 +97,19 @@ public class Main
                 }
             }
 
-            if (l1.charAt(i) == '.' || isSpecialChar(l1.charAt(i)))
+            if (isSpecialChar(l1.charAt(i)) || i == l1.length() - 1)
             {
                 //check to see if we have number and a loc
-                if ((!a.isBlank() || !b.isBlank() || !c.isBlank()) && loc != null)
+                if ((!a.isEmpty() || !b.isEmpty() || !c.isEmpty()) && loc != null)
                 {
                     //we have a number and a gear let's see if we have located this before
                     if (gearMap.get(loc) != null)
                     {
                         parsedNum = "";
                         //reuse this value because why not
-                        if (!a.isBlank())   parsedNum = parsedNum.concat(a);
-                        if (!b.isBlank())   parsedNum = parsedNum.concat(b);
-                        if (!c.isBlank())   parsedNum = parsedNum.concat(c);
+                        if (!a.isEmpty())   parsedNum = parsedNum.concat(a);
+                        if (!b.isEmpty())   parsedNum = parsedNum.concat(b);
+                        if (!c.isEmpty())   parsedNum = parsedNum.concat(c);
                         lineTotal += gearMap.get(loc) * Integer.parseInt(parsedNum);
                         a = "";
                         b = "";
@@ -134,8 +134,6 @@ public class Main
                     c = "";
                     loc = null;
                 }
-
-
             }
         }
         return lineTotal;
@@ -182,7 +180,7 @@ public class Main
         }
 
         //Check Only Upper Diagonally Right
-        if (index == 0 && l0 != null)
+        if (index != l1.length() - 1 && l0 != null)
         {
             r = (r == null) ? checkUpperRightDiagonal(l0, lCount, index) : r;
         }
@@ -200,7 +198,7 @@ public class Main
     {
         if (l2.charAt(index) == '*')
         {
-            return String.valueOf(lCount + 1) + index;
+            return String.valueOf(lCount + 1) + '-' + index;
         }
         return null;
     }
@@ -209,7 +207,7 @@ public class Main
     {
         if (l0.charAt(index) == '*')
         {
-            return String.valueOf(lCount - 1) + index;
+            return String.valueOf(lCount - 1) + '-' + index;
         }
         return null;
     }
@@ -218,7 +216,7 @@ public class Main
     {
         if (l1.charAt(index + 1) == '*')
         {
-            return String.valueOf(lCount) + (index + 1);
+            return String.valueOf(lCount) + '-' + (index + 1);
         }
         return null;
     }
@@ -227,7 +225,7 @@ public class Main
     {
         if (l1.charAt(index - 1) == '*')
         {
-            return String.valueOf(lCount) + (index - 1);
+            return String.valueOf(lCount) + '-' + (index - 1);
         }
         return null;
     }
@@ -236,7 +234,7 @@ public class Main
     {
         if (l2.charAt(index + 1) == '*')
         {
-            return String.valueOf(lCount + 1) + (index + 1);
+            return String.valueOf(lCount + 1) + '-' + (index + 1);
         }
         return null;
     }
@@ -245,7 +243,7 @@ public class Main
     {
         if (l0.charAt(index + 1) == '*')
         {
-            return String.valueOf(lCount - 1) + (index + 1);
+            return String.valueOf(lCount - 1) + '-' + (index + 1);
         }
         return null;
     }
@@ -254,7 +252,7 @@ public class Main
     {
         if (l2.charAt(index - 1) == '*')
         {
-            return String.valueOf(lCount + 1) + (index - 1);
+            return String.valueOf(lCount + 1) + '-' + (index - 1);
         }
         return null;
     }
@@ -263,7 +261,7 @@ public class Main
     {
         if (l0.charAt(index - 1) == '*')
         {
-            return String.valueOf(lCount - 1) + (index - 1);
+            return String.valueOf(lCount - 1) + '-' + (index - 1);
         }
         return null;
     }
@@ -282,6 +280,7 @@ public class Main
             case '@':
             case '-':
             case '=':
+            case '.':
                 return true;
         }
         return false;
